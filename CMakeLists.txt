@@ -3,6 +3,8 @@ project(Warehouse)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWAREHOUSE_DEBUG")
+
 add_executable(Warehouse
         src/main.cpp
         src/interface/system.cpp
@@ -25,4 +27,9 @@ add_executable(Warehouse
         src/interface/outlets/types/school.hpp
         src/interface/outlets/types/market.cpp
         src/interface/outlets/types/market.hpp
-        src/interface/outlets/request.cpp src/interface/outlets/request.hpp src/interface/suppliers/request.cpp src/interface/suppliers/request.hpp src/interface/suppliers/supplier.cpp src/interface/suppliers/supplier.hpp)
+        src/interface/outlets/request.cpp
+        src/interface/outlets/request.hpp
+        src/interface/suppliers/request.cpp
+        src/interface/suppliers/request.hpp
+        src/interface/suppliers/supplier.cpp
+        src/interface/suppliers/supplier.hpp src/interface/debug.hpp src/interface/exceptions.hpp)
