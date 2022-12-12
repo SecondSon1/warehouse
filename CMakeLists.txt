@@ -29,7 +29,6 @@ add_executable(Warehouse
         src/interface/outlets/types/market.hpp
         src/interface/outlets/request.cpp
         src/interface/outlets/request.hpp
-        src/interface/suppliers/request.cpp
-        src/interface/suppliers/request.hpp
-        src/interface/suppliers/supplier.cpp
-        src/interface/suppliers/supplier.hpp src/interface/debug.hpp src/interface/exceptions.hpp)
+        src/interface/supplier/request.hpp
+        src/interface/supplier/supplier.cpp
+        src/interface/supplier/supplier.hpp src/interface/debug.hpp src/interface/exceptions.hpp src/interface/invoice.cpp src/interface/invoice.hpp src/interface/supplier/order.hpp)

@@ -1,5 +1,10 @@
+#pragma once
 
-#ifndef WAREHOUSE_MANAGER_HPP
-#define WAREHOUSE_MANAGER_HPP
+class IManager {
+ public:
+  IManager() = default;
 
-#endif //WAREHOUSE_MANAGER_HPP
+  virtual void Submit() {
+
+  }
+};

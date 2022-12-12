@@ -1,5 +1,40 @@
+#pragma once
+#include <vector>
+#include "package.hpp"
+#include "../exceptions.hpp"
 
-#ifndef WAREHOUSE_STORAGE_HPP
-#define WAREHOUSE_STORAGE_HPP
+class Storage {
+ public:
+  Storage(std::vector<std::vector<Package>> packages);
 
-#endif //WAREHOUSE_STORAGE_HPP
+  const std::vector<Package> & operator [] (uint32_t id) const {
+    return packages_[id];
+  }
+
+  const std::vector<Package> & operator [] (const Product & product) const {
+    return packages_[product.GetId()];
+  }
+
+  const std::vector<Package> & operator [] (const std::weak_ptr<const Product> & product) const {
+    if (product.expired())
+      throw ProductNotProvidedError();
+    return packages_[product.lock()->GetId()];
+  }
+
+  std::vector<Package> & operator [] (uint32_t id) {
+    return packages_[id];
+  }
+
+  std::vector<Package> & operator [] (const Product & product) {
+    return packages_[product.GetId()];
+  }
+
+  std::vector<Package> & operator [] (const std::weak_ptr<const Product> & product) {
+    if (product.expired())
+      throw ProductNotProvidedError();
+    return packages_[product.lock()->GetId()];
+  }
+
+ private:
+  std::vector<std::vector<Package>> packages_;
+};
