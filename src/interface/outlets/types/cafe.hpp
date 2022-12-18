@@ -1,5 +1,0 @@
-
-#ifndef WAREHOUSE_CAFE_HPP
-#define WAREHOUSE_CAFE_HPP
-
-#endif //WAREHOUSE_CAFE_HPP

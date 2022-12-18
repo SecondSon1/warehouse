@@ -1,5 +1,12 @@
+#pragma once
 
-#ifndef WAREHOUSE_ACCEPTING_MANAGER_HPP
-#define WAREHOUSE_ACCEPTING_MANAGER_HPP
+#include "manager.hpp"
 
-#endif //WAREHOUSE_ACCEPTING_MANAGER_HPP
+class AcceptingManager : public IManager {
+ public:
+  AcceptingManager() = default;
+
+  void Submit(SupplierRequest & request) override {
+    // Empty since manager accepts (doesn't modify) any request
+  }
+};

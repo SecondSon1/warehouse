@@ -5,14 +5,10 @@
 
 class Storage {
  public:
-  Storage(std::vector<std::vector<Package>> packages);
+  Storage(std::vector<std::vector<Package>>  packages) : packages_(std::move(packages)) {}
 
   const std::vector<Package> & operator [] (uint32_t id) const {
     return packages_[id];
-  }
-
-  const std::vector<Package> & operator [] (const Product & product) const {
-    return packages_[product.GetId()];
   }
 
   const std::vector<Package> & operator [] (const std::weak_ptr<const Product> & product) const {
@@ -23,10 +19,6 @@ class Storage {
 
   std::vector<Package> & operator [] (uint32_t id) {
     return packages_[id];
-  }
-
-  std::vector<Package> & operator [] (const Product & product) {
-    return packages_[product.GetId()];
   }
 
   std::vector<Package> & operator [] (const std::weak_ptr<const Product> & product) {
