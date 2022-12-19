@@ -8,6 +8,7 @@ class ProductTable {
   // There can be only one product table
   // *Maybe* TODO: change
   ProductTable(std::vector<std::shared_ptr<Product>> && product) : products_(std::move(product)) {}
+  ProductTable(const ProductTable &) = delete;
 
  public:
   size_t GetProductsAmount() const { return products_.size(); }
