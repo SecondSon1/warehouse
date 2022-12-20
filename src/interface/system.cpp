@@ -151,10 +151,12 @@ void WarehouseSystem::DevelopDistributionToOutlets() {
       Assert(!product.expired(), "Product pointer expired...");
       uint32_t product_id = product.lock()->GetId();
       distribution_[outlet_id][product_id] = { element.GetFreshAmount(), element.GetDiscountedAmount() };
+      stats_.OutletRequested(day_, product, element.GetFreshAmount(),
+                             element.GetDiscountedAmount(), outlet_id);
     }
   }
 }
 
 void WarehouseSystem::OrderFromSupplier() {
-
+  // TODO: do + not forget to call stats callback
 }
