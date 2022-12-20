@@ -25,4 +25,4 @@ add_executable(Warehouse
         src/interface/debug.hpp
         src/interface/exceptions.hpp
         src/interface/supplier/order.hpp
-        src/interface/product_table.hpp src/interface/report.cpp src/interface/report.hpp)
+        src/interface/product_table.hpp src/interface/statistics.cpp src/interface/statistics.hpp src/interface/storage/storage.cpp src/interface/debug.cpp)

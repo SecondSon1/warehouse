@@ -6,7 +6,8 @@
 #include "managers/manager.hpp"
 #include "outlets/outlet.hpp"
 #include "supplier/supplier.hpp"
-#include "report.hpp"
+#include "statistics.hpp"
+#include "storage/storage.hpp"
 
 class WarehouseSystem {
  public:
@@ -15,13 +16,22 @@ class WarehouseSystem {
 
  public:
   std::weak_ptr<const ProductTable> GetProductTable() const { return product_table_; }
+  const Statistics & GetStatistics() const { return stats_; }
+  const Storage & GetStorage() const { return storage_; }
 
-  Report NextDay();
+ public:
+  std::vector<std::vector<std::pair<uint32_t, uint32_t>>> NextDay();
 
  private:
-
+  void ReviseStorage();
+  void AcceptFromSupplier();
+  void SendToOutlets();
+  void DevelopDistributionToOutlets();
+  void OrderFromSupplier();
 
  private:
+  Storage storage_;
+
   std::shared_ptr<ProductTable> product_table_;
   std::shared_ptr<IManager> manager_;
 
@@ -29,8 +39,9 @@ class WarehouseSystem {
   std::shared_ptr<Supplier> supplier_;
 
   uint32_t day_;
-  std::vector<Report> reports_;
 
-  uint32_t current_spent_;
-  uint32_t current_earned_;
+  Statistics stats_;
+
+  // distribution_[outlet_id][product_id] = { how many fresh, how many discounted }
+  std::vector<std::vector<std::pair<uint32_t, uint32_t>>> distribution_;
 };

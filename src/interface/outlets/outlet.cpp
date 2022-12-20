@@ -3,16 +3,16 @@
 #include <utility>
 #include "../debug.hpp"
 
-Outlet::Outlet(std::vector<double> product_coefficients, std::vector<double> discounted_product_coefficients,
-               std::weak_ptr<const ProductTable> product_table)
-               : product_coefficients_(std::move(product_coefficients)), product_table_(std::move(product_table)),
+Outlet::Outlet(uint32_t id, std::wstring name, std::vector<double> product_coefficients,
+               std::vector<double> discounted_product_coefficients)
+               : id_(id), name_(std::move(name)), product_coefficients_(std::move(product_coefficients)),
                  discounted_product_coefficients_(std::move(discounted_product_coefficients)),
                  rng_(std::random_device{}()), nrd_(0.5, 0.15) {
-  Assert(!product_table_.expired(), "Product table has expired");
-  Assert(product_table.lock()->GetProductsAmount() == product_coefficients_.size(),
-         "Product coefficients vector doesn't match size of product table");
-  Assert(product_coefficients_.size() == discounted_product_coefficients_.size(),
-         "Discounted product coefficients vector doesn't match size of product table");
+//  Assert(!product_table_.expired(), "Product table has expired");
+//  Assert(product_table.lock()->GetProductsAmount() == product_coefficients_.size(),
+//         "Product coefficients vector doesn't match size of product table");
+//  Assert(product_coefficients_.size() == discounted_product_coefficients_.size(),
+//         "Discounted product coefficients vector doesn't match size of product table");
 }
 
 OutletOrder Outlet::GenerateOrder() {
@@ -26,7 +26,8 @@ OutletOrder Outlet::GenerateOrder() {
     auto fresh_amount = static_cast<uint32_t>(round(fresh));
     auto discounted_amount = static_cast<uint32_t>(round(discounted));
 
-    elements.emplace_back((*product_table)[id], fresh_amount, discounted_amount);
+    if (fresh_amount || discounted_amount)
+      elements.emplace_back((*product_table)[id], fresh_amount, discounted_amount);
   }
   return { elements };
 }
