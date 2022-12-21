@@ -54,7 +54,11 @@ void WarehouseSystem::AcceptFromSupplier() {
     Assert(!product_weak.expired(), "Product expired (lol wtf how lmao)");
     std::shared_ptr<const Product> product = product_weak.lock();
 
-    for (size_t i = 0; i < order.GetAmount(); ++i) {
+    uint32_t amount = order.GetAmount();
+    if (storage_[product->GetId()].size() + amount > product->GetPackagesLimit())
+      amount = product->GetPackagesLimit() - storage_[product->GetId()].size();
+
+    for (size_t i = 0; i < amount; ++i) {
       // expiration date counts from departure, not from arrival at our warehouse
       storage_[product->GetId()].emplace_back(product, order.GetDepartureDate());
     }
@@ -157,6 +161,35 @@ void WarehouseSystem::DevelopDistributionToOutlets() {
   }
 }
 
+constexpr double OPTIMAL_PROBABILITY = 0.5;
+
 void WarehouseSystem::OrderFromSupplier() {
-  // TODO: do + not forget to call stats callback
+  static auto Fact = [](int n) -> int {
+    int x = 1;
+    for (int i = 2; i <= n; ++i)
+      x *= i;
+    return x;
+  };
+  static auto C = [](int n, int k) -> int {
+    return Fact(n) / Fact(k) / Fact(n - k);
+  };
+
+  std::vector<std::pair<std::weak_ptr<const Product>, uint32_t>> request;
+
+  auto on_way = stats_.GetProductsOnWay();
+
+  for (size_t product_id = 0; product_id < product_table_->GetProductsAmount(); ++product_id) {
+    uint32_t products_amount = storage_[product_id].size();
+    uint32_t target = (*product_table_)[product_id].lock()->GetPackagesLimit() / 2;
+    uint32_t ordered = 0;
+    for (size_t i = 0; i < on_way[product_id].size(); ++i)
+      ordered += on_way[product_id][i].second.first;
+    products_amount += ordered;
+    if (products_amount >= target) continue;
+    stats_.OrderedFromSupplier(day_, (*product_table_)[product_id],
+                               target - products_amount, day_);
+  }
+
+  SupplierRequest supplier_request(request, day_, day_);
+  supplier_->AcceptRequest(supplier_request);
 }

@@ -17,6 +17,7 @@ int32_t main() {
 
   WarehouseSystem system(std::move(products), manager, outlets, supplier);
   auto result = system.NextDay();
+  auto stats = system.GetStatistics();
   std::cout << result[0][0].first << " " << result[0][0].second << std::endl;
   std::cout << result[0][1].first << " " << result[0][1].second << std::endl;
 

@@ -7,10 +7,9 @@
 
 class SupplierRequest {
  public:
-  SupplierRequest(std::vector<std::pair<std::weak_ptr<const Product>, uint32_t>> request, uint32_t day_of_submitting)
-                  : request_(std::move(request)), day_(day_of_submitting) {
-    static uint32_t next_id = 0;
-    id_ = next_id++;
+  SupplierRequest(std::vector<std::pair<std::weak_ptr<const Product>, uint32_t>> request, uint32_t day_of_submitting,
+                  uint32_t id)
+                  : request_(std::move(request)), day_(day_of_submitting), id_(id) {
   }
 
  public:
