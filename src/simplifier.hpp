@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include "interface/system.hpp"
 #include "interface/debug.hpp"
 
@@ -100,4 +102,36 @@ std::vector<std::vector<std::wstring>> GetListOfRequestsFromOutlets(const Wareho
     }
   }
   return ans;
+}
+
+std::vector<std::vector<std::wstring>> GetStorage(const WarehouseSystem & system) {
+  // {L"Количество упаковок", L"Срок годности" (осталось дней до истечения), L"Цена"}
+  std::vector<std::vector<std::wstring>> ans;
+  const Storage & storage = system.GetStorage();
+  std::shared_ptr<const ProductTable> product_table = system.GetProductTable().lock();
+  size_t product_amount = product_table->GetProductsAmount();
+
+  uint32_t day = system.GetCurrentDay();
+  if (day == 0) return {};
+  --day;
+
+  for (size_t i = 0; i < product_amount; ++i) {
+    const std::vector<Package> & packages = storage[i];
+    std::map<uint32_t, uint32_t> mp;
+    for (const Package & package : packages) {
+      mp[package.GetExpirationDate()]++;
+    }
+    std::shared_ptr<const Product> product = (*product_table)[i].lock();
+
+    for (auto [date, amount] : mp) {
+      uint32_t price;
+      if (date < day + product->GetDiscountTime())
+        price = product->GetFullPrice();
+      else
+        price = product->GetDiscountedPrice();
+      Assert(date < day + product->GetExpirationTime(), "Lol expired product");
+
+      ans.push_back({ std::to_wstring(amount), std::to_wstring(date - day), std::to_wstring(price) });
+    }
+  }
 }
