@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWAREHOUSE_DEBUG")
 
+find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+
 add_executable(Warehouse
         src/main.cpp
         src/interface/system.cpp
@@ -25,4 +27,10 @@ add_executable(Warehouse
         src/interface/debug.hpp
         src/interface/exceptions.hpp
         src/interface/supplier/order.hpp
-        src/interface/product_table.hpp src/interface/statistics.cpp src/interface/statistics.hpp src/interface/storage/storage.cpp src/interface/debug.cpp)
+        src/interface/product_table.hpp
+        src/interface/statistics.cpp
+        src/interface/statistics.hpp
+        src/interface/storage/storage.cpp
+        src/interface/debug.cpp src/simplifier.hpp)
+
+target_link_libraries(Warehouse sfml-graphics sfml-audio)

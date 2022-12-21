@@ -18,6 +18,8 @@ class WarehouseSystem {
   std::weak_ptr<const ProductTable> GetProductTable() const { return product_table_; }
   const Statistics & GetStatistics() const { return stats_; }
   const Storage & GetStorage() const { return storage_; }
+  uint32_t GetCurrentDay() const { return day_; }
+  const std::vector<std::shared_ptr<Outlet>> & GetOutlets() const { return outlets_; }
 
  public:
   std::vector<std::vector<std::pair<uint32_t, uint32_t>>> NextDay();

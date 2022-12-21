@@ -18,7 +18,7 @@ WarehouseSystem::WarehouseSystem(std::vector<std::shared_ptr<Product>> && produc
 }
 
 std::vector<std::vector<std::pair<uint32_t, uint32_t>>> WarehouseSystem::NextDay() {
-
+  stats_.BeginNextDay();
   AcceptFromSupplier();
   ReviseStorage();
   SendToOutlets();
@@ -33,7 +33,6 @@ std::vector<std::vector<std::pair<uint32_t, uint32_t>>> WarehouseSystem::NextDay
 void WarehouseSystem::ReviseStorage() {
   for (size_t i = 0; i < product_table_->GetProductsAmount(); ++i) {
     std::vector<Package> & packages = storage_[i];
-    size_t size = packages.size();
     for (size_t j = 0; j < packages.size(); ) {
       if (packages[j].GetExpirationDate() == day_) {
         stats_.Expired(day_, packages[j]);
@@ -161,7 +160,7 @@ void WarehouseSystem::DevelopDistributionToOutlets() {
   }
 }
 
-constexpr double OPTIMAL_PROBABILITY = 0.5;
+//constexpr double OPTIMAL_PROBABILITY = 0.5;
 
 void WarehouseSystem::OrderFromSupplier() {
   static auto Fact = [](int n) -> int {

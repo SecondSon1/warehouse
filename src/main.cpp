@@ -1,5 +1,5 @@
 #include <iostream>
-#include "interface/system.hpp"
+#include "simplifier.hpp"
 #include "interface/managers/accepting_manager.hpp"
 
 int32_t main() {
@@ -18,6 +18,8 @@ int32_t main() {
   WarehouseSystem system(std::move(products), manager, outlets, supplier);
   auto result = system.NextDay();
   auto stats = system.GetStatistics();
+  auto a = GetProducts(system);
+  auto b = GetListOfPurchasedProduct(system);
   std::cout << result[0][0].first << " " << result[0][0].second << std::endl;
   std::cout << result[0][1].first << " " << result[0][1].second << std::endl;
 
