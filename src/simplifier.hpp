@@ -105,7 +105,8 @@ std::vector<std::vector<std::wstring>> GetListOfRequestsFromOutlets(const Wareho
 }
 
 std::vector<std::vector<std::wstring>> GetStorage(const WarehouseSystem & system) {
-  // {L"Количество упаковок", L"Срок годности" (осталось дней до истечения), L"Цена"}
+  // { L"Название", L"Количество в одной упаковке",
+  //   L"Количество упаковок", L"Срок годности" (осталось дней до истечения), L"Цена" }
   std::vector<std::vector<std::wstring>> ans;
   const Storage & storage = system.GetStorage();
   std::shared_ptr<const ProductTable> product_table = system.GetProductTable().lock();
@@ -131,7 +132,9 @@ std::vector<std::vector<std::wstring>> GetStorage(const WarehouseSystem & system
         price = product->GetDiscountedPrice();
       Assert(date < day + product->GetExpirationTime(), "Lol expired product");
 
-      ans.push_back({ std::to_wstring(amount), std::to_wstring(date - day), std::to_wstring(price) });
+      ans.push_back({
+        product->GetName(), std::to_wstring(product->GetPackageAmount()),
+        std::to_wstring(amount), std::to_wstring(date - day), std::to_wstring(price) });
     }
   }
 }
