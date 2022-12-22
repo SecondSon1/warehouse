@@ -386,7 +386,8 @@ class Table {
             bool flag = true;
             vector<wstring> temp;
             for (int j = 0; j < all_line_[i].size(); j++) {
-                if (all_line_[i][j] -> getString() == L"") {
+                if (all_line_[i][j] -> IsWrite() && all_line_[i][j] -> getString() == L"" ||
+                    !all_line_[i][j] -> IsWrite() && all_line_[i][j] -> getChoice() == -1) {
                     flag = false;
                     break;
                 }

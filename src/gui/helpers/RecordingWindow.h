@@ -9,19 +9,19 @@ bool default_f(wstring text) {
     return true;
 }
 
-class RecodingWindow: public Element {
+class RecordingWindow: public Element {
 
  public:
 
-    RecodingWindow(): is_active_(1), type_(2), checker_(default_f){}
-    RecodingWindow(float length, float width, bool is_active = 1, int type = 2): length_(length),
-                                                               width_(width),
-                                                               is_active_(is_active),
-                                                               type_(type), checker_(default_f)  {}
+    RecordingWindow(): is_active_(1), type_(2), checker_(default_f){}
+    RecordingWindow(float length, float width, bool is_active = 1, int type = 2): length_(length),
+                                                                                  width_(width),
+                                                                                  is_active_(is_active),
+                                                                                  type_(type), checker_(default_f)  {}
 
     virtual Element * copy() {
 
-        RecodingWindow * now = new RecodingWindow;
+        RecordingWindow * now = new RecordingWindow;
         now -> length_ = length_;
         now -> width_ = width_;
         now -> setFont(s_font_);
@@ -174,7 +174,7 @@ class RecodingWindow: public Element {
         text_.setString(L"");
         tstring_ = L"";
     }
-    virtual ~RecodingWindow() {}
+    virtual ~RecordingWindow() {}
 
 
     bool IsWrite() {

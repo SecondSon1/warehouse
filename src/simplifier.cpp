@@ -31,7 +31,6 @@ std::vector<std::vector<std::wstring>> GetListOfProductSold(const WarehouseSyste
   --day;
 
   for (size_t i = 0; i < sold.size(); ++i) {
-    std::wcout << "bruh_0 " << i << std::endl;
 
     uint32_t outlet_id = std::get<0>(sold[i]);
     uint32_t product_id = std::get<1>(sold[i]);
@@ -39,14 +38,10 @@ std::vector<std::vector<std::wstring>> GetListOfProductSold(const WarehouseSyste
     bool bought_fresh = std::get<3>(sold[i]);
     std::shared_ptr<const Product> product = (*product_table)[product_id].lock();
 
-    std::wcout << "bruh_1" << std::endl;
-    std::wcout << outlet_id << " " << outlets.size() << std::endl;
-
     ans[i] = {
         std::to_wstring(i + 1), outlets[outlet_id]->GetName(), product->GetName(), std::to_wstring(amount),
         std::to_wstring((bought_fresh ? product->GetFullPrice() : product->GetDiscountedPrice()) * amount)
     };
-    std::wcout << "bruh_2" << std::endl;
   }
   return ans;
 }
@@ -89,10 +84,6 @@ std::vector<std::vector<std::wstring>> GetListOfDecommissionedProducts(const War
   std::shared_ptr<const ProductTable> product_table = system.GetProductTable().lock();
   size_t products_amount = product_table->GetProductsAmount();
   std::vector<std::vector<std::wstring>> ans;
-
-  std::wcout << 4200 << std::endl;
-  std::wcout << products_amount << std::endl;
-  std::wcout << expired.size() << std::endl;
 
   // {L"Номер", L"Товар", L"Количество"}
   for (size_t i = 0; i < products_amount; ++i)

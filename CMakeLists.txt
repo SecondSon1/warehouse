@@ -45,6 +45,6 @@ add_executable(Warehouse
         src/gui/helpers/Screen.h
         src/gui/EndPage.h
         src/gui/Preview.h
-        src/gui/start_page.h src/simplifier.cpp src/gui/asset_manager.hpp)
+        src/gui/StartPage.h src/simplifier.cpp src/gui/asset_manager.hpp)
 
 target_link_libraries(Warehouse sfml-graphics sfml-audio)

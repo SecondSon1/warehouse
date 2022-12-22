@@ -107,6 +107,7 @@ void WarehouseSystem::SendToOutlets() {
                                    ordered_fresh_by_outlet[i].second);
           fresh_sold += uniform_distribution;
         }
+        --i;
         for (size_t mn = i - extra; i > mn; --i) {
           ordered_fresh -= 1;
           stats_.SoldToOutletFresh(day_, product, 1,ordered_fresh_by_outlet[i].second);
@@ -133,6 +134,7 @@ void WarehouseSystem::SendToOutlets() {
                                         ordered_discounted_by_outlet[i].second);
           discounted_sold += uniform_distribution;
         }
+        --i;
         for (size_t mn = i - extra; i > mn; --i) {
           ordered_discounted -= 1;
           stats_.SoldToOutletDiscounted(day_, product, 1,ordered_discounted_by_outlet[i].second);

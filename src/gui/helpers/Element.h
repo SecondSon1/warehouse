@@ -21,17 +21,17 @@ public:
     virtual pair<float,float> getPosition() = 0;
 
 
-    virtual bool Checker(wstring text){};
-    virtual wstring getString(){};
-    virtual bool Status(){};
-    virtual void Switch(){};
+    virtual bool Checker(wstring text) { return false; }
+    virtual wstring getString() { return {}; }
+    virtual bool Status() { return false; }
+    virtual void Switch() {}
 
-    virtual int CountChoice(double x, double y) {};
-    virtual bool InChoice(double x, double y) {};
-    virtual wstring NameChoice(int num) {};
-    virtual int getChoice() {};
-    virtual void drawOnlyChoice(RenderWindow & window) {};
-    virtual void setChoice(int num) {};
+    virtual int CountChoice(double x, double y) { return 0; }
+    virtual bool InChoice(double x, double y) { return false; }
+    virtual wstring NameChoice(int num) { return {}; }
+    virtual int getChoice() { return 0; }
+    virtual void drawOnlyChoice(RenderWindow & window) {}
+    virtual void setChoice(int num) {}
 
 };
 
@@ -46,7 +46,7 @@ struct line{
 struct info{
     int day;
     int outlets;
-    int packege;
+    int package;
     int area;
     int manager;
     vector<vector<wstring>> product;

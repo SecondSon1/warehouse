@@ -140,46 +140,46 @@ pair<float, vector<Text>> ToTable(int n, Font & font, vector<float> column, floa
 
 
 void FillAll(vector<Screen *> & screen, vector<Scroll *> & scroll, Font & font, float XText, float YText, WarehouseSystem & warehouse, vector<std::vector<std::pair<uint32_t, uint32_t>>> next_day) {
-    wcout << "w0" << endl;
+    // wcout << "w0" << endl;
     vector<vector<wstring>> tmp = GetListOfProductSold(warehouse);
-    wcout << "w1\n" << endl;
+    // wcout << "w1\n" << endl;
     screen[0] -> Clear();
-     wcout << "w10" << endl;
+     // wcout << "w10" << endl;
     for (int i = 0; i < scroll.size(); i++) {
         delete scroll[i];
     }
-    wcout << "w11" << endl;
+    // wcout << "w11" << endl;
 
     for (int i = 0; i < tmp.size(); i++) {
-             wcout << "w12 " << i << endl;
+             // wcout << "w12 " << i << endl;
             for (int j = 0; j < tmp[i].size(); j++) {
-                wcout << tmp[i][j] << endl;
+                // wcout << tmp[i][j] << endl;
             }
         screen[0] -> addLine(ToTable(5, font, table[0], 10, tmp[i], XText, YText));
     }
-    wcout << "w13 "<< endl;
+    // wcout << "w13 "<< endl;
     scroll[0] = new Scroll(30, 550, screen[0] -> Height(), 570, 4);
-    wcout << "w14 " <<endl;
+    // wcout << "w14 " <<endl;
     scroll[0] -> setPosition(1055, 80 + 50 + 15);
-    wcout << "w2\n";
+    // wcout << "w2\n";
     tmp.clear();
-    wcout << "w21" << endl;
+    // wcout << "w21" << endl;
     tmp = GetListOfPurchasedProduct(warehouse);
-    wcout << "w22" << endl;
+    // wcout << "w22" << endl;
     screen[1] -> Clear();
-    wcout << "w23" << endl;
+    // wcout << "w23" << endl;
     for (int i = 0; i < tmp.size(); i++) {
         for (int j = 0; j < tmp[i].size(); j++) {
-            wcout << "w235 " << tmp[i][j] << endl;
+            // wcout << "w235 " << tmp[i][j] << endl;
         }
 
         screen[1] -> addLine(ToTable(5, font, table[1], 10, tmp[i], XText, YText));
     }
-    wcout << "w24" << endl;
+    // wcout << "w24" << endl;
     scroll[1] = new Scroll(30, 550, screen[1] -> Height(), 570, 4);
-    wcout << "w25" << endl;
+    // wcout << "w25" << endl;
     scroll[1] -> setPosition(1055, 80 + 50 + 15);
-wcout << "w3\n";
+// wcout << "w3\n";
     tmp.clear();
     tmp = GetProductsThatCame(warehouse);
     screen[2] -> Clear();
@@ -189,25 +189,25 @@ wcout << "w3\n";
     scroll[2] = new Scroll(30, 550, screen[2] -> Height(), 570, 4);
     scroll[2] -> setPosition(1055, 80 + 50 + 15);
 
-wcout << "w4\n";
+// wcout << "w4\n";
     tmp.clear();
     tmp = GetListOfDecommissionedProducts(warehouse);
-    wcout << "w41" << endl;
+    // wcout << "w41" << endl;
     screen[3] -> Clear();
-    wcout << "w42" << endl;
+    // wcout << "w42" << endl;
     for (int i = 0; i < tmp.size(); i++) {
         for (int j = 0; j < tmp[i].size(); j++) {
-            wcout << "w435 " << tmp[i][j] << endl;
+            // wcout << "w435 " << tmp[i][j] << endl;
         }
 
         screen[3] -> addLine(ToTable(3, font, table[3], 10, tmp[i], XText, YText));
     }
-    wcout << "w43" << endl;
+    // wcout << "w43" << endl;
     scroll[3] = new Scroll(30, 550, screen[3] -> Height(), 570, 4);
-    wcout << "w44" << endl;
+    // wcout << "w44" << endl;
     scroll[3] -> setPosition(1055, 80 + 50 + 15);
 
-wcout << "w5\n";
+// wcout << "w5\n";
     tmp.clear();
     tmp = GetListOfRequestsFromOutlets(warehouse, next_day);
     screen[4] -> Clear();
@@ -216,17 +216,17 @@ wcout << "w5\n";
     }
     scroll[4] = new Scroll(30, 550, screen[4] -> Height(), 570, 4);
     scroll[4] -> setPosition(1055, 80 + 50 + 15);
-wcout << "w6\n";
+// wcout << "w6\n";
     tmp.clear();
     tmp = GetStorage(warehouse);
-    wcout << "w61\n";
+    // wcout << "w61\n";
     screen[5] -> Clear();
     screen[5] -> setNormal();
     screen[5] -> setPositionText(20, 20, 60, 35, 400);
     int last = 0;
-    wcout << "w62\n";
+    // wcout << "w62\n";
     for (int i = 0; i < tmp.size(); i++) {
-        wcout << "w63\n";
+        // wcout << "w63\n";
         if (i != tmp.size() - 1 && tmp[i][0] == tmp[i + 1][0]) {
             continue;
         }
@@ -235,22 +235,22 @@ wcout << "w6\n";
             count_package += s_to_i(tmp[i][2]);
 
         }
-        wcout << "w64\n";
+        // wcout << "w64\n";
         screen[5] -> addLine(i_to_s(i + 1) + L". " + tmp[i][0]);
         screen[5] -> addLine(L"Количество упаковок: " + i_to_s(count_package));
         screen[5] -> addLine(L"Количество в одной упаковоке: " + tmp[i][1]);
         screen[5] -> addLine(L"Подробнее: ");
         screen[5] -> addLine({L"Количество упаковок", L"Срок годности", L"Цена"});
-        wcout << "w65\n";
+        // wcout << "w65\n";
         for (int j = last; j <= i; j++) {
             vector<wstring> temp = {tmp[j][2], tmp[j][3], tmp[j][4]};
             screen[5] -> addLine(temp);
 
         }
-        wcout << "w66\n";
+        // wcout << "w66\n";
         last = i + 1;
     }
-    wcout << "w67\n";
+    // wcout << "w67\n";
     scroll[5] = new Scroll(30, 550, screen[5] -> Height(), 570, 4);
     scroll[5] -> setPosition(1055, 80 + 50 + 15);
 }
@@ -385,12 +385,12 @@ info MainPage(info prev, WarehouseSystem & warehouse) {
     Sprite help_s;
     help_s.setTexture(help_t);
     help_s.setPosition(0, 710);
-    wcout << "q8\n";
+    // wcout << "q8\n";
     vector<std::vector<std::pair<uint32_t, uint32_t>>> next_day = warehouse.NextDay();
     t_now_profit.setString(L"Прибыль: " + i_to_s(warehouse.GetStatistics().GetProfit()));
-    wcout << "q9\n";
+    // wcout << "q9\n";
     FillAll(screen, scroll, font, XText, YText, warehouse, next_day);
-    wcout << "q10\n";
+    // wcout << "q10\n";
     chrono::steady_clock::time_point start_t, end_t;
     float prev_x, prev_y;
     bool flag = false;
@@ -441,9 +441,9 @@ info MainPage(info prev, WarehouseSystem & warehouse) {
                     }
 
                     if (next.In(x, y) && next.IsActive()) {
-                        wcout << "e1" << endl;
+                        // wcout << "e1" << endl;
                         next_day = warehouse.NextDay();
-                    wcout << "e2" << endl;
+                    // wcout << "e2" << endl;
                         FillAll(screen, scroll, font, XText, YText, warehouse, next_day);
                         now_day = warehouse.GetCurrentDay();
                         t_now_day.setString(L"День: " + i_to_s(now_day));

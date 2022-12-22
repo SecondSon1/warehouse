@@ -17,7 +17,7 @@ void Supplier::AcceptRequest(const SupplierRequest & request) {
 
     uint32_t resulting_day = request.GetDay() + wait_time_whole + driving_time_whole;
 
-    order.SetDepartureDate(wait_time_whole);
+    order.SetDepartureDate(request.GetDay() + wait_time_whole);
 
     FillUntil(resulting_day);
     orders_[resulting_day].push_back(order);
