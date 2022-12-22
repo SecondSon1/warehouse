@@ -8,7 +8,8 @@ class Statistics {
  public:
   Statistics(uint32_t products_amount)
              : products_amount_(products_amount), by_product_count_(products_amount), on_way_(products_amount),
-               by_product_profit_(products_amount), by_product_came_(products_amount) {}
+               by_product_expired_(products_amount), by_product_profit_(products_amount),
+               by_product_came_(products_amount), made_(0), spent_(0), burnt_(0), orders_count_(0) {}
 
  public:
   int32_t GetProfit() const { return static_cast<int32_t>(made_) - static_cast<int32_t>(spent_); }

@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWAREHOUSE_DEBUG")
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(Warehouse
-        src/main.cpp
+        src/interface_test.cpp
         src/interface/system.cpp
         src/interface/system.hpp
         src/interface/product.cpp
@@ -31,6 +31,20 @@ add_executable(Warehouse
         src/interface/statistics.cpp
         src/interface/statistics.hpp
         src/interface/storage/storage.cpp
-        src/interface/debug.cpp src/simplifier.hpp)
+        src/interface/debug.cpp
+        src/simplifier.hpp
+
+        src/main.cpp
+        src/gui/helpers/Button.h
+        src/gui/helpers/Element.h
+        src/gui/helpers/HelpString.h
+        src/gui/helpers/List.h
+        src/gui/helpers/RecordingWindow.h
+        src/gui/helpers/Table.h
+        src/gui/helpers/Scroll.h
+        src/gui/helpers/Screen.h
+        src/gui/EndPage.h
+        src/gui/Preview.h
+        src/gui/start_page.h src/simplifier.cpp src/gui/asset_manager.hpp)
 
 target_link_libraries(Warehouse sfml-graphics sfml-audio)

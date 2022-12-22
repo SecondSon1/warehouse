@@ -7,7 +7,7 @@ void Statistics::OrderedFromSupplier(uint32_t day, const std::weak_ptr<const Pro
   std::shared_ptr<const Product> ptr = product.lock();
   uint32_t product_id = ptr->GetId();
   on_way_[product_id].emplace_back(request_id, std::make_pair(amount, day));
-  spent_ += ptr->GetPrice();
+  spent_ += ptr->GetPrice() * amount;
 }
 
 void Statistics::CameFromSupplier(uint32_t day, const std::weak_ptr<const Product> & product,
@@ -35,10 +35,11 @@ void Statistics::Expired(uint32_t day, const Package &package) {
 
 void Statistics::SoldToOutletFresh(uint32_t day, const std::weak_ptr<const Product> & product, uint32_t amount,
                                    uint32_t outlet_id) {
+  if (amount == 0) return;
   Assert(!product.expired(), "Product expired");
   std::shared_ptr<const Product> ptr = product.lock();
-  auto sold_for = static_cast<int32_t>(ptr->GetFullPrice());
-  auto bought_for = static_cast<int32_t>(ptr->GetPrice());
+  auto sold_for = static_cast<int32_t>(ptr->GetFullPrice() * amount);
+  auto bought_for = static_cast<int32_t>(ptr->GetPrice() * amount);
   ++by_product_count_[ptr->GetId()];
   by_product_profit_[ptr->GetId()] += sold_for - bought_for;
   made_ += sold_for;
@@ -47,10 +48,11 @@ void Statistics::SoldToOutletFresh(uint32_t day, const std::weak_ptr<const Produ
 
 void Statistics::SoldToOutletDiscounted(uint32_t day, const std::weak_ptr<const Product> & product, uint32_t amount,
                                         uint32_t outlet_id) {
+  if (amount == 0) return;
   Assert(!product.expired(), "Product expired");
   std::shared_ptr<const Product> ptr = product.lock();
-  auto sold_for = static_cast<int32_t>(ptr->GetDiscountedPrice());
-  auto bought_for = static_cast<int32_t>(ptr->GetPrice());
+  auto sold_for = static_cast<int32_t>(ptr->GetDiscountedPrice() * amount);
+  auto bought_for = static_cast<int32_t>(ptr->GetPrice() * amount);
   ++by_product_count_[ptr->GetId()];
   by_product_profit_[ptr->GetId()] += sold_for - bought_for;
   made_ += sold_for;
@@ -65,4 +67,3 @@ void Statistics::OutletRequested(uint32_t day, const std::weak_ptr<const Product
 void Statistics::BeginNextDay() {
   current_day_orders_.clear();
 }
-

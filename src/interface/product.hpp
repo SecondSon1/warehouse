@@ -11,15 +11,15 @@ class Product {
   Product(const Product &) = delete; // no copying, only moving
 
  public: // boilerplate
-  [[nodiscard]] uint32_t GetId() const { return id_; }
-  [[nodiscard]] const std::wstring & GetName() const { return name_; }
-  [[nodiscard]] uint32_t GetExpirationTime() const { return expiration_time_; }
-  [[nodiscard]] uint32_t GetDiscountTime() const { return discount_time_; }
-  [[nodiscard]] uint32_t GetPrice() const { return price_; }
-  [[nodiscard]] uint32_t GetFullPrice() const { return full_price_; }
-  [[nodiscard]] uint32_t GetDiscountedPrice() const { return discounted_price_; }
-  [[nodiscard]] uint32_t GetPackageAmount() const { return package_amount_; }
-  [[nodiscard]] uint32_t GetPackagesLimit() const { return packages_limit_; }
+  uint32_t GetId() const { return id_; }
+  const std::wstring & GetName() const { return name_; }
+  uint32_t GetExpirationTime() const { return expiration_time_; }
+  uint32_t GetDiscountTime() const { return discount_time_; }
+  uint32_t GetPrice() const { return price_; }
+  uint32_t GetFullPrice() const { return full_price_; }
+  uint32_t GetDiscountedPrice() const { return discounted_price_; }
+  uint32_t GetPackageAmount() const { return package_amount_; }
+  uint32_t GetPackagesLimit() const { return packages_limit_; }
 
  private:
   uint32_t id_;

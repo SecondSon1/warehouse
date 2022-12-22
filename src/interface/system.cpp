@@ -4,15 +4,15 @@
 
 WarehouseSystem::WarehouseSystem(std::vector<std::shared_ptr<Product>> && products, std::shared_ptr<IManager> manager,
                                  std::vector<std::shared_ptr<Outlet>> outlets, std::shared_ptr<Supplier> supplier)
-                                 : product_table_(std::make_shared<ProductTable>(std::move(products))),
-                                   manager_(std::move(manager)), day_(0), storage_(products.size()),
-                                   distribution_(outlets_.size(),
-                                                 std::vector<std::pair<uint32_t, uint32_t>>(
-                                                     product_table_->GetProductsAmount()
-                                                     )
-                                                 ),
-                                   stats_(product_table_->GetProductsAmount()),
-                                   outlets_(std::move(outlets)), supplier_(std::move(supplier)) {
+    : product_table_(std::make_shared<ProductTable>(std::move(products))),
+      manager_(std::move(manager)), day_(0), storage_(products.size()),
+      distribution_(outlets_.size(),
+                    std::vector<std::pair<uint32_t, uint32_t>>(
+                        product_table_->GetProductsAmount()
+                    )
+      ),
+      stats_(product_table_->GetProductsAmount()),
+      outlets_(std::move(outlets)), supplier_(std::move(supplier)) {
   for (const std::shared_ptr<Outlet> & outlet : outlets_)
     outlet->SetProductTable(product_table_);
 }
@@ -49,14 +49,11 @@ void WarehouseSystem::AcceptFromSupplier() {
   for (const SupplierOrder & order : orders) {
     std::weak_ptr<const Product> product_weak = order.GetProduct();
     stats_.CameFromSupplier(day_, product_weak, order.GetAmount(), order.GetRequestId());
-
     Assert(!product_weak.expired(), "Product expired (lol wtf how lmao)");
     std::shared_ptr<const Product> product = product_weak.lock();
-
     uint32_t amount = order.GetAmount();
     if (storage_[product->GetId()].size() + amount > product->GetPackagesLimit())
       amount = product->GetPackagesLimit() - storage_[product->GetId()].size();
-
     for (size_t i = 0; i < amount; ++i) {
       // expiration date counts from departure, not from arrival at our warehouse
       storage_[product->GetId()].emplace_back(product, order.GetDepartureDate());
@@ -88,6 +85,9 @@ void WarehouseSystem::SendToOutlets() {
         ordered_discounted_by_outlet.emplace_back(distribution_[outlet_id][product_id].second, outlet_id);
     }
 
+    ordered_fresh = std::min(ordered_fresh, static_cast<uint32_t>(have_fresh.size()));
+    ordered_discounted = std::min(ordered_discounted, static_cast<uint32_t>(have_discounted.size()));
+
     std::sort(ordered_fresh_by_outlet.begin(), ordered_fresh_by_outlet.end());
     std::sort(ordered_discounted_by_outlet.begin(), ordered_discounted_by_outlet.end());
 
@@ -112,6 +112,7 @@ void WarehouseSystem::SendToOutlets() {
           stats_.SoldToOutletFresh(day_, product, 1,ordered_fresh_by_outlet[i].second);
           fresh_sold += 1;
         }
+        Assert(ordered_fresh == 0, "Ordered fresh is not 0");
       }
     }
 
@@ -137,15 +138,17 @@ void WarehouseSystem::SendToOutlets() {
           stats_.SoldToOutletDiscounted(day_, product, 1,ordered_discounted_by_outlet[i].second);
           discounted_sold += 1;
         }
+        Assert(ordered_discounted == 0, "Ordered discounted is not 0");
       }
     }
 
-    storage_.SoldFreshProducts(day_, product_id, fresh_sold);
-    storage_.SoldDiscountedProducts(day_, product_id, discounted_sold);
+    if (fresh_sold > 0) storage_.SoldFreshProducts(day_, product_id, fresh_sold);
+    if (discounted_sold > 0) storage_.SoldDiscountedProducts(day_, product_id, discounted_sold);
   }
 }
 
 void WarehouseSystem::DevelopDistributionToOutlets() {
+  // std::wcout << "DevelopDistribution" << std::endl;
   for (const std::shared_ptr<Outlet> & outlet : outlets_) {
     uint32_t outlet_id = outlet->GetId();
     std::vector<OutletOrderElement> result = outlet->GenerateOrder().GetOrder();
@@ -163,7 +166,7 @@ void WarehouseSystem::DevelopDistributionToOutlets() {
 //constexpr double OPTIMAL_PROBABILITY = 0.5;
 
 void WarehouseSystem::OrderFromSupplier() {
-  static auto Fact = [](int n) -> int {
+  /*static auto Fact = [](int n) -> int {
     int x = 1;
     for (int i = 2; i <= n; ++i)
       x *= i;
@@ -171,7 +174,7 @@ void WarehouseSystem::OrderFromSupplier() {
   };
   static auto C = [](int n, int k) -> int {
     return Fact(n) / Fact(k) / Fact(n - k);
-  };
+  };*/
 
   std::vector<std::pair<std::weak_ptr<const Product>, uint32_t>> request;
 
@@ -183,10 +186,11 @@ void WarehouseSystem::OrderFromSupplier() {
     uint32_t ordered = 0;
     for (size_t i = 0; i < on_way[product_id].size(); ++i)
       ordered += on_way[product_id][i].second.first;
-    products_amount += ordered;
+    products_amount += ordered / 2;
     if (products_amount >= target) continue;
-    stats_.OrderedFromSupplier(day_, (*product_table_)[product_id],
-                               target - products_amount, day_);
+    auto x = (*product_table_)[product_id];
+    stats_.OrderedFromSupplier(day_, x, target - products_amount, day_);
+    request.emplace_back((*product_table_)[product_id], target - products_amount);
   }
 
   SupplierRequest supplier_request(request, day_, day_);
