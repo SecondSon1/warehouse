@@ -23,8 +23,8 @@ vector<shared_ptr<Product>> getProduct(info result) {
                               s_to_i(result.product[i][1]),
                               s_to_i(result.product[i][1]) / 2,
                               price,
-                              price * 13 / 10,
-                              price * 13 / 20,
+                              price * 3 / 2,
+                              price * 3 / 4,
                               package_amount,
                               result.package)));
   }

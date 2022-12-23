@@ -37,7 +37,7 @@ vector<wstring> head = {L"Наименование",
                         L"Закупочная\n      цена",
                         L"Товар",
                         L"Количество\nв упаковке"};
-vector<wstring> hints_page_one_str = {L"*Обязательное поле. Значение в диапозоне от 7 до 30.",
+vector<wstring> hints_page_one_str = {L"*Обязательное поле. Значение в диапозоне от 7 до 1000.",
                                       L"*Обязательное поле. Значение в диапозоне от 3 до 9.",
                                       L"*Обязательное поле. Ненулевое значение.",
                                       L"*Обязательный выбор.",
@@ -346,7 +346,7 @@ info StartPage() {
                             TRY = false;
                             continue;
                         }
-                        if (result.day < 7/* || result.day > 30 :)*/) {
+                        if (result.day < 7 || result.day > 1000) {
                             TRY = false;
                         }
                         if (outlets.getString() != L"") {

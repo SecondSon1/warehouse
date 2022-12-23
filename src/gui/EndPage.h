@@ -104,7 +104,7 @@ info EndPage(info result, WarehouseSystem & warehouse) {
 
     Statistics statistic = warehouse.GetStatistics();
 
-    screen.addLine(str[0] + i_to_s(result.day));
+    screen.addLine(str[0] + i_to_s(warehouse.GetCurrentDay()));
     screen.addLine(str[1] + i_to_s(statistic.GetAmountOfOrders()));
     screen.addLine(str[2] + i_to_s(statistic.GetBurnt()));
     screen.addLine(str[3] + i_to_s(statistic.GetProfit()));

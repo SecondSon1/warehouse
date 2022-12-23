@@ -21,6 +21,9 @@ class Scroll {
         if (w != -1) {
 
             w_ = w;
+            while (hight - (t_len_ - sz_window_) / w_ < 30) {
+              w_ += 1;
+            }
             tmp = hight - (t_len_ - sz_window_) / w_;
             if (t_len_ <= sz_window_) {
                 w_ = 0;
