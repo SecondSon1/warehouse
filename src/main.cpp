@@ -150,34 +150,10 @@ int main() {
 
   while (true) {
       vector<info> result;
-//        result.push_back(Preview());
-//
-//        if (result.back().status == 0) {
-//            break;
-//        }
-        result.push_back(StartPage());
-        if (result.back().status == 0) {
-            continue;
-        }
-//
-//        wcout << result[0].area << " " <<result[0].day << " " << result[0].packege << endl;
-//        wcout << endl;
-//        for (int i = 0; i < result[0].product.size(); i++) {
-//            for (int j = 0; j < result[0].product[i].size(); j++){
-//                wcout << result[0].product[i][j] << endl;
-//        }
-//        }
-//        wcout << "///////////////" << endl;
-//    info temp;
-//    temp.day = 365;
-//    temp.area = 0;
-//    temp.manager = 0;
-//    temp.outlets = 2;
-//    temp.status = 1;
-//    temp.package = 70;
-//    temp.product.push_back({L"Хлеб", L"14", L"150", L"0", L"15"});
-    //temp.product.push_back({L"aaaaaaa", L"14", L"123", L"0", L"12"});
-//    result.push_back(temp);
+      result.push_back(StartPage());
+      if (result.back().status == 0) {
+        break;
+      }
 
     vector<shared_ptr<Product>> product = getProduct(result.back());
     shared_ptr<AcceptingManager> manager = shared_ptr<AcceptingManager>( new AcceptingManager);

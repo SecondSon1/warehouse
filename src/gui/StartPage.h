@@ -37,13 +37,13 @@ vector<wstring> head = {L"Наименование",
                         L"Закупочная\n      цена",
                         L"Товар",
                         L"Количество\nв упаковке"};
-vector<wstring> hints_page_one_str = {L"*Обязательное поле. Значение в диапозоне от 7 до 1000.",
+vector<wstring> hints_page_one_str = {L"*Обязательное поле. Значение в диапозоне от 7 до 100.",
                                       L"*Обязательное поле. Значение в диапозоне от 3 до 9.",
                                       L"*Обязательное поле. Ненулевое значение.",
                                       L"*Обязательный выбор.",
                                       L"*Обязательный выбор.",
                                       };
-vector<wstring> hints_page_two_str = {L"*В таблице должны быть полностью заполнены хотябы 10 строк."
+vector<wstring> hints_page_two_str = {L"*В таблице должна быть полностью заполнена хотя бы одна строка."
                                       };
 
 bool is_num(wstring text) {
@@ -108,7 +108,7 @@ info StartPage() {
         Text tmp;
         tmp.setFont(font);
         tmp.setCharacterSize(20);
-        tmp.setPosition(110, 600);
+        tmp.setPosition(110, 155);
         tmp.setFillColor(Color::Black);
         tmp.setString(hints_page_two_str[i]);
         hints_page_two.push_back(tmp);
@@ -239,7 +239,7 @@ info StartPage() {
     area.setStep(50);
     area.setFont(s_font);
     area.setCharacterSize(30);
-    area.setList(str_area, 250);
+    area.setList(str_area, 300);
     area.setImage(ASSET_PREFIX + "List.png");
     area.setString(not_selected);
 
@@ -346,7 +346,7 @@ info StartPage() {
                             TRY = false;
                             continue;
                         }
-                        if (result.day < 7 || result.day > 1000) {
+                        if (result.day < 7 || result.day > 100) {
                             TRY = false;
                         }
                         if (outlets.getString() != L"") {

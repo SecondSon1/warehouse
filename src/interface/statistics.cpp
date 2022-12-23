@@ -44,6 +44,7 @@ void Statistics::SoldToOutletFresh(uint32_t day, const std::weak_ptr<const Produ
   by_product_profit_[ptr->GetId()] += sold_for - bought_for;
   made_ += sold_for;
   current_day_orders_.emplace_back(outlet_id, ptr->GetId(), amount, true);
+  ++orders_count_;
 }
 
 void Statistics::SoldToOutletDiscounted(uint32_t day, const std::weak_ptr<const Product> & product, uint32_t amount,
@@ -57,6 +58,7 @@ void Statistics::SoldToOutletDiscounted(uint32_t day, const std::weak_ptr<const 
   by_product_profit_[ptr->GetId()] += sold_for - bought_for;
   made_ += sold_for;
   current_day_orders_.emplace_back(outlet_id, ptr->GetId(), amount, false);
+  ++orders_count_;
 }
 
 void Statistics::OutletRequested(uint32_t day, const std::weak_ptr<const Product> & product, uint32_t fresh_amount,

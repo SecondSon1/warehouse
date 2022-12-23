@@ -137,6 +137,23 @@ pair<float, vector<Text>> ToTable(int n, Font & font, vector<float> column, floa
 
 }
 
+wstring SizeFormed(wstring str, float h, Text temp) {
+
+  wstring ans;
+
+  for (int i = 0; i < str.size(); i++) {
+    ans += str[i];
+    temp.setString(ans);
+    if (temp.getLocalBounds().width > h) {
+      ans.pop_back();
+      ans += '\n';
+      ans+=str[i];
+    }
+
+  }
+  return ans;
+}
+
 
 
 void FillAll(vector<Screen *> & screen, vector<Scroll *> & scroll, Font & font, float XText, float YText, WarehouseSystem & warehouse, vector<std::vector<std::pair<uint32_t, uint32_t>>> next_day) {
@@ -225,6 +242,7 @@ void FillAll(vector<Screen *> & screen, vector<Scroll *> & scroll, Font & font, 
     screen[5] -> setPositionText(20, 20, 60, 35, 400);
     int last = 0;
     // wcout << "w62\n";
+    int nxt = 1;
     for (int i = 0; i < tmp.size(); i++) {
         // wcout << "w63\n";
         if (i != tmp.size() - 1 && tmp[i][0] == tmp[i + 1][0]) {
@@ -236,7 +254,7 @@ void FillAll(vector<Screen *> & screen, vector<Scroll *> & scroll, Font & font, 
 
         }
         // wcout << "w64\n";
-        screen[5] -> addLine(i_to_s(i + 1) + L". " + tmp[i][0]);
+        screen[5] -> addLine(i_to_s(nxt++) + L". " + tmp[i][0]);
         screen[5] -> addLine(L"Количество упаковок: " + i_to_s(count_package));
         screen[5] -> addLine(L"Количество в одной упаковоке: " + tmp[i][1]);
         screen[5] -> addLine(L"Подробнее: ");
@@ -387,7 +405,7 @@ info MainPage(info prev, WarehouseSystem & warehouse) {
     help_s.setPosition(0, 710);
     // wcout << "q8\n";
     vector<std::vector<std::pair<uint32_t, uint32_t>>> next_day = warehouse.NextDay();
-    t_now_profit.setString(L"Прибыль: " + i_to_s(warehouse.GetStatistics().GetProfit()));
+    t_now_profit.setString(SizeFormed(L"Прибыль: " + i_to_s(warehouse.GetStatistics().GetProfit()), 320, t_now_profit));
     // wcout << "q9\n";
     FillAll(screen, scroll, font, XText, YText, warehouse, next_day);
     // wcout << "q10\n";
@@ -447,7 +465,7 @@ info MainPage(info prev, WarehouseSystem & warehouse) {
                         FillAll(screen, scroll, font, XText, YText, warehouse, next_day);
                         now_day = warehouse.GetCurrentDay();
                         t_now_day.setString(L"День: " + i_to_s(now_day));
-                        t_now_profit.setString(L"Прибыль: " + i_to_s(warehouse.GetStatistics().GetProfit()));
+                        t_now_profit.setString(SizeFormed(L"Прибыль: " + i_to_s(warehouse.GetStatistics().GetProfit()), 320, t_now_profit));
                         if (now_day == prev.day) {
                             complete.setClick();
                             next.setNoneClick();
